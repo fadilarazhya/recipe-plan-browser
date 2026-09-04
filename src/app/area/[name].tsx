@@ -1,15 +1,18 @@
-import { FlatList, RefreshControl, View, StyleSheet } from "react-native"
-import { useRecipes } from "@/hooks/useRecipes"
+import { FlatList, StyleSheet, View } from "react-native"
+import { Stack, useLocalSearchParams } from "expo-router"
+import { useRecipesByArea } from "@/hooks/useRecipesByArea"
 import { RecipeCard } from "@/components/RecipeCard"
 import { StateView } from "@/components/StateView"
 import { colors, spacing } from "@/theme"
 
-export default function RecipesScreen() {
-  const { data, status, isRefetching, refetch } = useRecipes()
+export default function AreaRecipesScreen() {
+  const { name } = useLocalSearchParams<{ name: string }>()
+  const { data, status } = useRecipesByArea(name)
 
   return (
     <View style={styles.container}>
-      <StateView status={status} isEmpty={data.length === 0}>
+      <Stack.Screen options={{ title: name }} />
+      <StateView status={status} isEmpty={data.length === 0} emptyMessage="No recipes found.">
         <FlatList
           data={data}
           keyExtractor={(item) => item.idMeal}
@@ -17,9 +20,6 @@ export default function RecipesScreen() {
           numColumns={2}
           columnWrapperStyle={styles.row}
           contentContainerStyle={styles.listContent}
-          refreshControl={
-            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
-          }
         />
       </StateView>
     </View>
