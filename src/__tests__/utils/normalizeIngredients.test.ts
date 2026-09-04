@@ -1,4 +1,4 @@
-import { normalizeIngredients } from "@/utils/normalizeIngredients";
+import { normalizeIngredients } from "@/utils/normalizeIngredients"
 
 describe("normalizeIngredients", () => {
   it("pairs each ingredient with its measure and drops empty slots", () => {
@@ -11,15 +11,15 @@ describe("normalizeIngredients", () => {
       strMeasure3: "",
       strIngredient4: null,
       strMeasure4: undefined,
-    };
+    }
 
     expect(normalizeIngredients(rawMeal)).toEqual([
       { ingredient: "Flour", measure: "200g" },
       { ingredient: "Sugar", measure: "100g" },
-    ]);
-  });
+    ])
+  })
 
   it("returns an empty array when there are no ingredients", () => {
-    expect(normalizeIngredients({})).toEqual([]);
-  });
-});
+    expect(normalizeIngredients({})).toEqual([])
+  })
+})
